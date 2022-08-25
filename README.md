@@ -1,4 +1,4 @@
-![alt text for screen readers](car-icon.png "Text to show on mouseover").
+<img src="car-icon.png" alt="Car" width="200"/>
 
 # Sparkle Express
 
