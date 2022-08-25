@@ -1,3 +1,5 @@
+![alt text for screen readers](image.png "Text to show on mouseover").
+
 # Sparkle Express
 
 **Nomes:**
