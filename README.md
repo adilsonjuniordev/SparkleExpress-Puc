@@ -1,6 +1,6 @@
 <p align="center"> <img src="assets/logo.jpg" alt="Sparkle Express" width="400"/> </p>
 
-<img src="assets/car-icon.png" alt="Car" width="80"/>
+<img src="assets/car-icon.png" alt="Car" width="100"/>
 
 # Sparkle Express
 
@@ -21,7 +21,5 @@
 3. Como Ramon, quero ter o controle na prestação dos serviços realizados pelos motoristas da minha companhia de transportes fretados, para que as atividades dos colaboradores e estimativa dos lucros sejam monitoradas.
 4. Como Yumi, quero evitar o preenchimento de recibos manuais, para que possa ser amenizada a possibilidade de erro nas informações.
 5. Como Marcelo, quero eliminar a emissão de folhas de papeis, para que possamos preservar o meio ambiente.
-
-
-
+<br>
 **Link Diagrama de Classes**
