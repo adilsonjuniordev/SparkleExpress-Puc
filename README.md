@@ -1,6 +1,6 @@
-<p align="center"> <img src="assets/logo.jpg" alt="Sparkle Express" width="400"/> </p>
+<p align="center"> <img src="assets/logo.jpg" href="#" alt="Sparkle Express" width="400"/> </p>
 
-<img src="assets/car-icon.png" alt="Car" width="100"/>
+<img src="assets/car-icon.png" href="#" alt="Car" width="100"/>
 
 # Sparkle Express
 
