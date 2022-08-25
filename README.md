@@ -1,5 +1,5 @@
-<center><img src="logo.jpg" alt="Sparkle Express"/></center>
-<img src="car-icon.png" alt="Car" width="80"/>
+<center><img src="assets/logo.jpg" alt="Sparkle Express"/></center>
+<img src="assets/car-icon.png" alt="Car" width="80"/>
 
 # Sparkle Express
 
