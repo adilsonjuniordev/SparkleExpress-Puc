@@ -1,3 +1,7 @@
+<p align="center"> <img src="assets/logo.jpg" href="#" alt="Sparkle Express" width="400"/> </p>
+
+<img src="assets/car-icon.png" href="#" alt="Car" width="100"/>
+
 # Sparkle Express
 
 **Nomes:**
@@ -18,4 +22,4 @@
 4. Como Yumi, quero evitar o preenchimento de recibos manuais, para que possa ser amenizada a possibilidade de erro nas informações.
 5. Como Marcelo, quero eliminar a emissão de folhas de papeis, para que possamos preservar o meio ambiente.
 
-**Link Diagrama de Classes**
+<img src="assets/diagrama_uml.png" href="#" alt="UML"/>
