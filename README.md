@@ -10,9 +10,13 @@
 - Pedro Augusto Costa Senciano
 - Raony Lino de Oliveira
 
+<br>
+
 **Descrição do Sistema**
 
 - Criação de um sistema mobile capaz de digitalizar os recibos emitidos em tempo real e encaminhar para o e-mail do financeiro da empresa parceira.
+
+<br>
 
 **História de Usuários**
 
