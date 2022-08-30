@@ -18,7 +18,7 @@
 
 <br>
 
-**História de Usuários**
+**Estória de Usuários**
 
 1. Como Alice, quero ter facilidade na locomoção entre as filiais da empresa, para que eu possa otimizar meus horários.
 2. Como Márcio, quero agilidade na emissão de recibos para minha empresa, para que os relatórios financeiros possam ser gerados em tempo hábil.
