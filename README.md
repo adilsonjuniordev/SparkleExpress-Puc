@@ -1,4 +1,4 @@
-<p align="center"> <img src="assets/images/logo.png" href="#" alt="Sparkle Express" width="200"/> </p>
+<img src="assets/images/logo.png" href="#" alt="Sparkle Express" width="200"/>
 
 # Sparkle Express
 
