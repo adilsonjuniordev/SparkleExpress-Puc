@@ -3,6 +3,7 @@ import 'package:sparkle_express/app/screens/login/repository/user_repository_log
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:sparkle_express/app/ui/my_theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:validatorless/validatorless.dart';
 import '../../widgets/my_field.dart';
@@ -53,8 +54,8 @@ class LoginPage extends GetView<LoginController> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(45),
                             child: Image.asset(
-                              "assets/images/logo-taxi.png",
-                              scale: 4,
+                              "assets/images/logo.png",
+                              scale: 2.5,
                             ),
                           ),
                         ),
@@ -161,101 +162,6 @@ class LoginPage extends GetView<LoginController> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 20),
-                        Container(
-                          height: 80,
-                          decoration: BoxDecoration(
-                            color: const Color(0xffF5CF16).withAlpha(5),
-                            border: Border(
-                              top: BorderSide(
-                                width: 2,
-                                color: Colors.grey.withAlpha(120),
-                              ),
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text(
-                                "Desenvolvido por:",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              TextButton(
-                                onPressed: () async {
-                                  Get.defaultDialog(
-                                    title: "Desenvolvedor",
-                                    barrierDismissible: false,
-                                    content: Column(
-                                      children: [
-                                        ClipRRect(borderRadius: BorderRadius.circular(80), child: Image.asset("assets/images/adilson.jpg", width: 80)),
-                                        const SizedBox(height: 5),
-                                        const Text("Adilson Junior", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                                        const SizedBox(height: 15),
-                                        const Text("Desenvolvedor Mobile e Web", style: TextStyle(fontSize: 16)),
-                                        const SizedBox(height: 20),
-                                        Container(
-                                          padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.25, right: MediaQuery.of(context).size.width * 0.25),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                children: [
-                                                  const FaIcon(FontAwesomeIcons.linkedin, size: 22),
-                                                  const SizedBox(width: 5),
-                                                  InkWell(
-                                                    child: const Text(
-                                                      "Linkedin",
-                                                      style: TextStyle(
-                                                        color: Colors.blueGrey,
-                                                        decoration: TextDecoration.underline,
-                                                      ),
-                                                    ),
-                                                    onTap: () async => await launchUrl(Uri.https("www.linkedin.com", "/in/adilsonjuniordev")),
-                                                  ),
-                                                ],
-                                              ),
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                children: [
-                                                  const FaIcon(FontAwesomeIcons.envelope, size: 20),
-                                                  const SizedBox(width: 5),
-                                                  InkWell(
-                                                    child: const Text(
-                                                      "Web Site",
-                                                      style: TextStyle(
-                                                        color: Colors.blueGrey,
-                                                        decoration: TextDecoration.underline,
-                                                      ),
-                                                    ),
-                                                    onTap: () async => await launchUrl(Uri.https("adilsonjuniordev.github.io", ""), mode: LaunchMode.externalApplication),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    radius: 10,
-                                    cancel: ElevatedButton(
-                                      onPressed: () => Get.back(),
-                                      child: const Text(
-                                        "Fechar",
-                                        style: TextStyle(color: Colors.black),
-                                      ),
-                                    ),
-                                    cancelTextColor: const Color(0xffF5CF16),
-                                  );
-                                },
-                                child: const Text(
-                                  "Adilson Junior",
-                                  style: TextStyle(decoration: TextDecoration.underline),
-                                ),
-                              )
-                            ],
-                          ),
-                        )
                       ],
                     ),
                   ),

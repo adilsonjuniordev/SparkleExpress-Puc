@@ -15,7 +15,7 @@ class Splash extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return EasySplashScreen(
-      logo: Image.asset('assets/images/logo-taxi.png'),
+      logo: Image.asset('assets/images/logo.png'),
       backgroundColor: Colors.black87,
       showLoader: true,
       logoSize: 120,
