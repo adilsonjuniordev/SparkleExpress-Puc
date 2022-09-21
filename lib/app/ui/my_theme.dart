@@ -9,13 +9,13 @@ class MyTheme {
     primaryColor: const Color(0xffF5CF16),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        primary: const Color(0xffF5CF16),
+        backgroundColor: const Color(0xffF5CF16),
         elevation: 4,
       ),
     ),
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
-        primary: const Color(0xffF5CF16),
+        backgroundColor: const Color(0xffF5CF16),
       ),
     ),
   );
