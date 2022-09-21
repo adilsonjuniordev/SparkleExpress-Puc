@@ -24,4 +24,4 @@
 4. Como Yumi, quero evitar o preenchimento de recibos manuais, para que possa ser amenizada a possibilidade de erro nas informações.
 5. Como Marcelo, quero eliminar a emissão de folhas de papeis, para que possamos preservar o meio ambiente.
 
-<img src="assets/doc/diagrama_uml.png" href="#" alt="UML"/>
+<img src="assets/images/diagrama_uml.png" href="#" alt="UML"/>
