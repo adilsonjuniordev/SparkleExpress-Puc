@@ -26,7 +26,6 @@
 
 <img src="assets/images/diagrama_uml.png" href="#" alt="UML"/>
 
-
 ## Testando o App (depuração pela IDE)
 
 Instale o SDK do [**Flutter**](https://docs.flutter.dev/get-started/install) na versão mais recente do canal **Stable**.
