@@ -35,7 +35,7 @@ Em seguida [**configure a IDE**](https://docs.flutter.dev/get-started/editor) de
 1 - Abra o terminal na raiz do projeto.
 2 - Execute o comando abaixo para baixar os pacotes e dependências do projeto:
 
-```
+```sh
 > flutter pub get
 ```
 
@@ -53,7 +53,7 @@ ___
 > Ao concluir a instalação basta abri-lo
 ___
 > Caso esteja instalando pelo ADB, execute o seguinte comando via terminal:
-```
+```sh
 > adb install installer.apk
 ```
 ___
