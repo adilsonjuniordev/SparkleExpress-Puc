@@ -19,15 +19,16 @@ class DatabaseConnection {
         CREATE TABLE registros(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         id_recibo TEXT,
-        id_user INTEGER,
-        nome_motorista TEXT,
+        email_motorista TEXT,
         empresa TEXT,
         nome_func1 TEXT,
-        nome_func2 TEXT,
         matricula_func1 TEXT,
+        nome_func2 TEXT,
         matricula_func2 TEXT,
-        setor_func1 TEXT,
-        setor_func2 TEXT,
+        nome_func3 TEXT,
+        matricula_func3 TEXT,
+        nome_func4 TEXT,
+        matricula_func4 TEXT,
         data TEXT,
         hora_inicial TEXT,
         hora_final TEXT,
@@ -37,7 +38,7 @@ class DatabaseConnection {
         origem TEXT,
         destino TEXT,
         pedagio INTEGER,
-        valor_total TEXT,
+        observacao TEXT,
         url_imagem TEXT
         )''');
 
@@ -49,10 +50,8 @@ class DatabaseConnection {
 
     await database.execute('''
         CREATE TABLE funcionarios(
-        uc TEXT,
         matricula TEXT,
-        nome TEXT,
-        chefe TEXT
+        nome TEXT
         )''');
   }
 
@@ -68,9 +67,9 @@ class DatabaseConnection {
     }
   }
 
-  Future<List<Map<String, dynamic>>> getAllDataReversed(int id) async {
+  Future<List<Map<String, dynamic>>> getAllDataReversed(String id) async {
     Database db = await setDatabase();
-    var lista = await db.rawQuery("SELECT * FROM registros WHERE id_user = ?", [id]);
+    var lista = await db.rawQuery("SELECT * FROM registros WHERE email_motorista = ?", [id]);
     return lista.reversed.toList();
   }
 

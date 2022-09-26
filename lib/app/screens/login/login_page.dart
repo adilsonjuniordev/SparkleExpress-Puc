@@ -1,23 +1,15 @@
 import 'package:sparkle_express/app/screens/login/login_controller.dart';
-import 'package:sparkle_express/app/screens/login/repository/user_repository_login.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:sparkle_express/app/ui/my_theme.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:validatorless/validatorless.dart';
 import '../../widgets/my_field.dart';
-import '../../widgets/my_snackbar.dart';
 
 class LoginPage extends GetView<LoginController> {
   LoginPage({Key? key}) : super(key: key);
 
-  final usuarioEC = TextEditingController();
+  final emailEC = TextEditingController();
   final senhaEC = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-
-  @override
-  final LoginController controller = Get.put(LoginController());
 
   @override
   Widget build(BuildContext context) {
@@ -67,13 +59,12 @@ class LoginPage extends GetView<LoginController> {
                               child: Column(
                                 children: [
                                   MyField(
-                                    controller: usuarioEC,
+                                    controller: emailEC,
                                     label: "Usuário",
                                     prefixIconButton: const Icon(Icons.person, color: Colors.white),
-                                    inputType: TextInputType.number,
+                                    inputType: TextInputType.emailAddress,
                                     validator: Validatorless.multiple([
-                                      Validatorless.number("Somente números são aceitos"),
-                                      Validatorless.min(5, "Usuário deve ter pelo menos 5 números"),
+                                      Validatorless.email("Email inválido"),
                                       Validatorless.required("Usuário obrigatório"),
                                     ]),
                                   ),
@@ -83,10 +74,7 @@ class LoginPage extends GetView<LoginController> {
                                     label: "Senha",
                                     prefixIconButton: const Icon(Icons.vpn_key_outlined, color: Colors.white),
                                     inputType: TextInputType.number,
-                                    validator: Validatorless.multiple([
-                                      Validatorless.required("Senha obrigatória"),
-                                      Validatorless.min(3, "Senha deve ter pelo menos 3 caracteres"),
-                                    ]),
+                                    validator: Validatorless.required("Senha obrigatória"),
                                     obscureText: true,
                                   ),
                                   const SizedBox(height: 20),
@@ -101,33 +89,9 @@ class LoginPage extends GetView<LoginController> {
                                                   if (!currentFocus.hasPrimaryFocus) {
                                                     currentFocus.unfocus();
                                                   }
-
                                                   final validForm = _formKey.currentState?.validate() ?? false;
                                                   if (validForm) {
-                                                    controller.enableButtonLogin.value = false;
-                                                    MySnackbar().loading();
-                                                    var result = await UserRepositoryLogin().buscaDadosLogin();
-                                                    if (result != null) {
-                                                      var login = await UserRepositoryLogin().validaLogin(
-                                                        usuario: usuarioEC.text,
-                                                        senha: senhaEC.text,
-                                                        dados: result,
-                                                      );
-
-                                                      if (login) {
-                                                        Get.closeAllSnackbars();
-                                                        MySnackbar().loginSuccess();
-                                                        Get.offAndToNamed('/home');
-                                                        Future.delayed(const Duration(seconds: 3), () => controller.enableButtonLogin.value = true);
-                                                      } else {
-                                                        Get.closeAllSnackbars();
-                                                        MySnackbar().loginFailed();
-                                                        Future.delayed(const Duration(seconds: 3), () => controller.enableButtonLogin.value = true);
-                                                      }
-                                                    } else {
-                                                      controller.enableButtonLogin.value = true;
-                                                      MySnackbar().noConnection();
-                                                    }
+                                                    await controller.loginUser(emailEC.text, senhaEC.text);
                                                   }
                                                 }
                                               : null,

@@ -1,8 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sparkle_express/app/repositories/database_connection.dart';
 import 'package:sparkle_express/app/screens/registers/registers_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class Registers extends GetView<RegistersController> {
@@ -35,7 +35,7 @@ class Registers extends GetView<RegistersController> {
               width: MediaQuery.of(context).size.width * 0.3,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.asset("assets/images/logo-taxi.png", height: 60),
+                child: Image.asset("assets/images/logo.png", height: 70),
               ),
             ),
             const SizedBox(height: 10),
@@ -68,10 +68,10 @@ class Registers extends GetView<RegistersController> {
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   return Card(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(side: BorderSide(color: Colors.blueGrey.withAlpha(180), width: 1), borderRadius: BorderRadius.circular(6)),
+                    color: Colors.white.withAlpha(220),
+                    shape: RoundedRectangleBorder(side: BorderSide(color: Colors.blueGrey.withAlpha(180), width: 1), borderRadius: BorderRadius.circular(10)),
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -79,7 +79,7 @@ class Registers extends GetView<RegistersController> {
                           Container(
                             padding: const EdgeInsets.all(4),
                             decoration: BoxDecoration(
-                              color: Colors.grey.withAlpha(60),
+                              color: Colors.yellow,
                               border: Border.all(color: Colors.grey, width: 2),
                               borderRadius: BorderRadius.circular(5),
                             ),
@@ -111,9 +111,36 @@ class Registers extends GetView<RegistersController> {
                             children: [
                               const Icon(Icons.person, size: 18),
                               const SizedBox(width: 4),
-                              Flexible(child: Text("Func 1: ${snapshot.data![index]['nome_func1']}", overflow: TextOverflow.ellipsis)),
+                              Flexible(child: Text("Funcionário 1: ${snapshot.data![index]['nome_func1']}", overflow: TextOverflow.ellipsis)),
                             ],
                           ),
+                          snapshot.data![index]['nome_func2'] != ""
+                              ? Row(
+                                  children: [
+                                    const Icon(Icons.person, size: 18),
+                                    const SizedBox(width: 4),
+                                    Flexible(child: Text("Funcionário 2: ${snapshot.data![index]['nome_func2']}", overflow: TextOverflow.ellipsis)),
+                                  ],
+                                )
+                              : const SizedBox(),
+                          snapshot.data![index]['nome_func3'] != ""
+                              ? Row(
+                                  children: [
+                                    const Icon(Icons.person, size: 18),
+                                    const SizedBox(width: 4),
+                                    Flexible(child: Text("Funcionário 3: ${snapshot.data![index]['nome_func3']}", overflow: TextOverflow.ellipsis)),
+                                  ],
+                                )
+                              : const SizedBox(),
+                          snapshot.data![index]['nome_func4'] != ""
+                              ? Row(
+                                  children: [
+                                    const Icon(Icons.person, size: 18),
+                                    const SizedBox(width: 4),
+                                    Flexible(child: Text("Funcionário 4: ${snapshot.data![index]['nome_func4']}", overflow: TextOverflow.ellipsis)),
+                                  ],
+                                )
+                              : const SizedBox(),
                           Row(
                             children: [
                               const Icon(Icons.location_on_outlined, size: 18),
@@ -123,16 +150,16 @@ class Registers extends GetView<RegistersController> {
                           ),
                           Row(
                             children: [
-                              const Icon(Icons.local_taxi, size: 18),
+                              const Icon(Icons.location_on_outlined, size: 18),
                               const SizedBox(width: 4),
-                              Flexible(child: Text("KM Inicial: ${snapshot.data![index]['km_inicial']}")),
+                              Flexible(child: Text("Destino: ${snapshot.data![index]['destino']}")),
                             ],
                           ),
                           Row(
                             children: [
-                              const Icon(Icons.location_on_outlined, size: 18),
+                              const Icon(Icons.local_taxi, size: 18),
                               const SizedBox(width: 4),
-                              Flexible(child: Text("Destino: ${snapshot.data![index]['destino']}")),
+                              Flexible(child: Text("KM Inicial: ${snapshot.data![index]['km_inicial']}")),
                             ],
                           ),
                           Row(
@@ -156,13 +183,6 @@ class Registers extends GetView<RegistersController> {
                                   Flexible(child: Text("Pedágio: R\$${snapshot.data![index]['pedagio']}")),
                                 ])
                               : const SizedBox.shrink(),
-                          Row(
-                            children: [
-                              const Icon(Icons.monetization_on_outlined, size: 18),
-                              const SizedBox(width: 4),
-                              Flexible(child: Text("Valor Total: R\$${snapshot.data![index]['valor_total']}")),
-                            ],
-                          ),
                           snapshot.data![index]['url_imagem'] == ""
                               ? const SizedBox.shrink()
                               : Row(
@@ -171,7 +191,7 @@ class Registers extends GetView<RegistersController> {
                                     InkWell(
                                       child: const Text(
                                         'Visualizar Anexo',
-                                        style: TextStyle(color: Colors.blueAccent),
+                                        style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
                                       ),
                                       onTap: () => launchUrlString(
                                         snapshot.data![index]['url_imagem'],
@@ -206,11 +226,11 @@ class Registers extends GetView<RegistersController> {
   }
 
   Future<List<Map<String, dynamic>>> getRegisters() async {
-    final prefs = await SharedPreferences.getInstance();
-    String? usuario = prefs.getString("usuario");
+    User? user = FirebaseAuth.instance.currentUser;
+    final String emailMotorista = user?.email ?? "";
 
-    if (usuario != null) {
-      return await DatabaseConnection().getAllDataReversed(int.parse(usuario));
+    if (emailMotorista != "") {
+      return await DatabaseConnection().getAllDataReversed(emailMotorista);
     }
     return [];
   }

@@ -2,9 +2,6 @@ import 'package:sparkle_express/app/screens/home/home_controller.dart';
 import 'package:sparkle_express/app/widgets/my_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../repositories/logout.dart';
-
-final HomeController controller = Get.put(HomeController());
 
 class HomePage extends GetView<HomeController> {
   const HomePage({Key? key}) : super(key: key);
@@ -33,7 +30,7 @@ class HomePage extends GetView<HomeController> {
                 width: MediaQuery.of(context).size.width * 0.6,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: Image.asset("assets/images/logo-taxi.png", scale: 6),
+                  child: Image.asset("assets/images/logo.png", scale: 2.5),
                 ),
               ),
               const SizedBox(height: 30),
@@ -46,9 +43,7 @@ class HomePage extends GetView<HomeController> {
                 icon: Icons.logout,
                 iconColor: Colors.white,
                 bgColor: Colors.redAccent.withAlpha(200),
-                onPressed: () {
-                  logoutConfirm();
-                },
+                onPressed: () => controller.logoutConfirm(),
               ),
             ],
           ),

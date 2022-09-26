@@ -1,12 +1,14 @@
 import 'package:sparkle_express/app/repositories/recibos_sheets_api.dart';
 import 'package:sparkle_express/app/screens/home/home_bindings.dart';
 import 'package:sparkle_express/app/screens/home/home_page.dart';
+import 'package:sparkle_express/app/screens/login/login_bindings.dart';
 import 'package:sparkle_express/app/screens/login/login_page.dart';
 import 'package:sparkle_express/app/screens/newRegister/new_register_page.dart';
 import 'package:sparkle_express/app/screens/newRegister/new_register_bindings.dart';
 import 'package:sparkle_express/app/screens/registers/registers_bindings.dart';
 import 'package:sparkle_express/app/screens/registers/registers_page.dart';
-import 'package:sparkle_express/app/screens/splash.dart';
+import 'package:sparkle_express/app/screens/splash/splash_bindings.dart';
+import 'package:sparkle_express/app/screens/splash/splash_page.dart';
 import 'package:sparkle_express/app/ui/my_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -35,10 +37,14 @@ class MyApp extends StatelessWidget {
         Locale('pt', 'BR'),
       ],
       theme: MyTheme.principal,
-      home: const Splash(),
       debugShowCheckedModeBanner: false,
       getPages: [
-        GetPage(name: '/', page: () => LoginPage(), children: [
+        GetPage(name: '/', page: () => const SplashPage(), binding: SplashBindings(), children: [
+          GetPage(
+            name: '/login',
+            page: () => LoginPage(),
+            binding: LoginBindings(),
+          ),
           GetPage(
             name: '/home',
             page: () => const HomePage(),

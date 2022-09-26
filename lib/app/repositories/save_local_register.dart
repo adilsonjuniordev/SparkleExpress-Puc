@@ -9,13 +9,16 @@ Future<int> saveLocal(Recibo recibo) async {
     db.insert("registros", {
       'id': null,
       'id_recibo': recibo.idRecibo,
-      'id_user': recibo.matriculaMotorista,
-      'nome_motorista': recibo.nomeMotorista,
+      'email_motorista': recibo.emailMotorista,
       'empresa': recibo.empresa,
       'nome_func1': recibo.nomeFunc1,
       'matricula_func1': recibo.matrFunc1,
       'nome_func2': recibo.nomeFunc2,
       'matricula_func2': recibo.matrFunc2,
+      'nome_func3': recibo.nomeFunc3,
+      'matricula_func3': recibo.matrFunc3,
+      'nome_func4': recibo.nomeFunc4,
+      'matricula_func4': recibo.matrFunc4,
       'data': recibo.data,
       'hora_inicial': recibo.horaInicio,
       'hora_final': recibo.horaFim,
@@ -25,7 +28,7 @@ Future<int> saveLocal(Recibo recibo) async {
       'origem': recibo.origem,
       'destino': recibo.destino,
       'pedagio': recibo.pedagio,
-      'valor_total': recibo.valorTotal,
+      'observacao': recibo.observacao,
       'url_imagem': recibo.arquivo,
     });
 

@@ -1,6 +1,7 @@
 import 'dart:developer' as dev;
 import 'dart:io';
 import 'dart:math';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sparkle_express/app/models/recibo.dart';
 import 'package:sparkle_express/app/models/recibo_fields.dart';
 import 'package:sparkle_express/app/repositories/recibos_sheets_api.dart';
@@ -20,7 +21,6 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:validatorless/validatorless.dart';
 import '../../repositories/upload_firebase.dart';
 import '../../widgets/my_snackbar.dart';
@@ -59,9 +59,7 @@ class NewRegister extends GetView<NewRegisterController> {
   final origemEC = TextEditingController();
   final destinoEC = TextEditingController();
   final pedagioEC = TextEditingController();
-
-  @override
-  NewRegisterController controller = Get.put(NewRegisterController());
+  final observacaoEC = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +95,7 @@ class NewRegister extends GetView<NewRegisterController> {
                     width: MediaQuery.of(context).size.width * 0.5,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
-                      child: Image.asset("assets/images/logo-taxi.png", height: 60),
+                      child: Image.asset("assets/images/logo.png", height: 90),
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -122,13 +120,13 @@ class NewRegister extends GetView<NewRegisterController> {
                                 title: const Center(
                                   child: Padding(
                                     padding: EdgeInsets.all(8),
-                                    child: Text("Escolha uma empresa", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+                                    child: Text("Escolha uma empresa", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
                                   ),
                                 ),
                                 dialogProps: DialogProps(
                                   contentPadding: const EdgeInsets.symmetric(vertical: 20),
                                   elevation: 10,
-                                  backgroundColor: Colors.blueGrey,
+                                  backgroundColor: Colors.grey,
                                   shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                   barrierDismissible: true,
                                   barrierColor: Colors.black.withAlpha(180),
@@ -153,7 +151,7 @@ class NewRegister extends GetView<NewRegisterController> {
                                     Radius.circular(6),
                                   ),
                                 ),
-                                label: Text("Selecione", style: TextStyle(color: Colors.white)),
+                                label: Text("Selecione a empresa", style: TextStyle(color: Colors.white)),
                                 hintText: "Empresa",
                                 hintStyle: TextStyle(color: Colors.white),
                               ),
@@ -179,7 +177,7 @@ class NewRegister extends GetView<NewRegisterController> {
                                   label: "Matrícula",
                                   controller: matriculaFunc1EC,
                                   inputType: TextInputType.number,
-                                  onChanged: (String value) => _pesquisaFuncionario(texto: value, nomeEC: nomeFunc1EC, matriculaEC: matriculaFunc1EC, ucEC: ucFunc1EC, chefeEC: chefeFunc1EC),
+                                  onChanged: (String value) => _pesquisaFuncionario(texto: value, nomeEC: nomeFunc1EC, matriculaEC: matriculaFunc1EC),
                                   validator: Validatorless.required("Obrigatório"),
                                 ),
                               ),
@@ -223,7 +221,7 @@ class NewRegister extends GetView<NewRegisterController> {
                                   label: "Matrícula",
                                   controller: matriculaFunc2EC,
                                   inputType: TextInputType.number,
-                                  onChanged: (String value) => _pesquisaFuncionario(texto: value, nomeEC: nomeFunc2EC, matriculaEC: matriculaFunc2EC, ucEC: ucFunc2EC, chefeEC: chefeFunc2EC),
+                                  onChanged: (String value) => _pesquisaFuncionario(texto: value, nomeEC: nomeFunc2EC, matriculaEC: matriculaFunc2EC),
                                 ),
                               ),
                               const SizedBox(width: 10),
@@ -264,7 +262,7 @@ class NewRegister extends GetView<NewRegisterController> {
                                   label: "Matrícula",
                                   controller: matriculaFunc3EC,
                                   inputType: TextInputType.number,
-                                  onChanged: (String value) => _pesquisaFuncionario(texto: value, nomeEC: nomeFunc3EC, matriculaEC: matriculaFunc3EC, ucEC: ucFunc3EC, chefeEC: chefeFunc3EC),
+                                  onChanged: (String value) => _pesquisaFuncionario(texto: value, nomeEC: nomeFunc3EC, matriculaEC: matriculaFunc3EC),
                                 ),
                               ),
                               const SizedBox(width: 10),
@@ -305,7 +303,7 @@ class NewRegister extends GetView<NewRegisterController> {
                                   label: "Matrícula",
                                   controller: matriculaFunc4EC,
                                   inputType: TextInputType.number,
-                                  onChanged: (String value) => _pesquisaFuncionario(texto: value, nomeEC: nomeFunc4EC, matriculaEC: matriculaFunc4EC, ucEC: ucFunc4EC, chefeEC: chefeFunc4EC),
+                                  onChanged: (String value) => _pesquisaFuncionario(texto: value, nomeEC: nomeFunc4EC, matriculaEC: matriculaFunc4EC),
                                 ),
                               ),
                               const SizedBox(width: 10),
@@ -410,7 +408,7 @@ class NewRegister extends GetView<NewRegisterController> {
                     ),
                   ),
                   Obx(() => controller.kmFinal.value > controller.kmInicio.value
-                      ? Text("\nTotal percorrido: ${(controller.kmFinal.value - controller.kmInicio.value).toStringAsFixed(1)}KM",
+                      ? Text("\nTotal percorrido: ${(controller.kmFinal.value - controller.kmInicio.value).toStringAsFixed(1)}km",
                           style: TextStyle(color: MyTheme.primary, fontWeight: FontWeight.bold))
                       : const SizedBox.shrink()),
                   Divider(height: 30, thickness: 1, indent: 10, endIndent: 10, color: MyTheme.primary.withAlpha(50)),
@@ -453,11 +451,17 @@ class NewRegister extends GetView<NewRegisterController> {
                       validator: Validatorless.number("Use números e ponto"),
                     ),
                   ),
+                  Divider(height: 30, thickness: 1, indent: 10, endIndent: 10, color: MyTheme.primary.withAlpha(50)),
+                  SizedBox(
+                    child: MyField(
+                      label: "Observação",
+                      controller: observacaoEC,
+                      onChanged: (value) {},
+                      inputType: TextInputType.text,
+                      maxLines: 3,
+                    ),
+                  ),
                   const SizedBox(height: 20),
-                  Obx(() => (controller.kmFinal.value > controller.kmInicio.value)
-                      ? Text("Valor total: R\$ ${((controller.kmFinal.value - controller.kmInicio.value) * 2.59) + controller.pedagio.value}\n",
-                          style: TextStyle(color: MyTheme.primary, fontWeight: FontWeight.bold))
-                      : const SizedBox.shrink()),
                   Container(
                     decoration: BoxDecoration(
                       border: Border.all(color: MyTheme.primary.withAlpha(100), width: 1),
@@ -516,9 +520,8 @@ class NewRegister extends GetView<NewRegisterController> {
   _salvar() async {
     var validForm = _formKey.currentState!.validate();
 
-    final prefs = await SharedPreferences.getInstance();
-    final String matriculaMotorista = prefs.getString('usuario') ?? "";
-    final String nomeMotorista = prefs.getString('nome') ?? "";
+    User? user = FirebaseAuth.instance.currentUser;
+    final String emailMotorista = user?.email ?? "";
 
     if (validForm) {
       if (controller.empresaSelecionadaNome.value != "") {
@@ -528,20 +531,31 @@ class NewRegister extends GetView<NewRegisterController> {
 
           Get.showOverlay(
             loadingWidget: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: 60,
-                    height: 60,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 8,
-                      backgroundColor: Colors.grey.withAlpha(100),
-                    ),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.yellow, width: 2),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        width: 60,
+                        height: 60,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 8,
+                          backgroundColor: Colors.grey.withAlpha(100),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      Text("Enviando", style: TextStyle(fontSize: 24, color: MyTheme.primary, decoration: TextDecoration.none)),
+                    ],
                   ),
-                  const SizedBox(height: 20),
-                  Text("Enviando", style: TextStyle(fontSize: 24, color: MyTheme.primary, decoration: TextDecoration.none)),
-                ],
+                ),
               ),
             ),
             asyncFunction: () async {
@@ -564,22 +578,13 @@ class NewRegister extends GetView<NewRegisterController> {
                       horaFim: controller.horaFinal.value,
                       nomeFunc1: nomeFunc1EC.text != "" ? nomeFunc1EC.text : "",
                       matrFunc1: nomeFunc1EC.text != "" ? matriculaFunc1EC.text : "",
-                      ucFunc1: nomeFunc1EC.text != "" ? ucFunc1EC.text : "",
-                      chefeFunc1: nomeFunc1EC.text != "" ? chefeFunc1EC.text : "",
                       nomeFunc2: nomeFunc2EC.text != "" ? nomeFunc2EC.text : "",
                       matrFunc2: nomeFunc2EC.text != "" ? matriculaFunc2EC.text : "",
-                      ucFunc2: nomeFunc2EC.text != "" ? ucFunc2EC.text : "",
-                      chefeFunc2: nomeFunc2EC.text != "" ? chefeFunc2EC.text : "",
                       nomeFunc3: nomeFunc3EC.text != "" ? nomeFunc3EC.text : "",
                       matrFunc3: nomeFunc3EC.text != "" ? matriculaFunc3EC.text : "",
-                      ucFunc3: nomeFunc3EC.text != "" ? ucFunc3EC.text : "",
-                      chefeFunc3: nomeFunc3EC.text != "" ? chefeFunc3EC.text : "",
                       nomeFunc4: nomeFunc4EC.text != "" ? nomeFunc4EC.text : "",
                       matrFunc4: nomeFunc4EC.text != "" ? matriculaFunc4EC.text : "",
-                      ucFunc4: nomeFunc4EC.text != "" ? ucFunc4EC.text : "",
-                      chefeFunc4: nomeFunc4EC.text != "" ? chefeFunc4EC.text : "",
-                      matriculaMotorista: matriculaMotorista,
-                      nomeMotorista: nomeMotorista,
+                      emailMotorista: emailMotorista,
                       kmInicio: kmInicialEC.text,
                       kmFim: kmFinalEC.text,
                       kmPercorrido: (controller.kmFinal.value - controller.kmInicio.value).toStringAsFixed(1),
@@ -587,7 +592,7 @@ class NewRegister extends GetView<NewRegisterController> {
                       destino: destinoEC.text,
                       passageiros: controller.passageiros.value.toString(),
                       pedagio: pedagioEC.text.replaceAll(".", ","),
-                      valorTotal: (((controller.kmFinal.value - controller.kmInicio.value) * 2.59) + double.parse(pedagioEC.text)).toString(),
+                      observacao: observacaoEC.text,
                       arquivo: controller.urlImagem.value,
                     );
 
@@ -600,22 +605,13 @@ class NewRegister extends GetView<NewRegisterController> {
                       ReciboFields.horaFim: controller.horaFinal.value,
                       ReciboFields.nomeFunc1: nomeFunc1EC.text != "" ? nomeFunc1EC.text : "",
                       ReciboFields.matrFunc1: nomeFunc1EC.text != "" ? matriculaFunc1EC.text : "",
-                      ReciboFields.ucFunc1: nomeFunc1EC.text != "" ? ucFunc1EC.text : "",
-                      ReciboFields.chefeFunc1: nomeFunc1EC.text != "" ? chefeFunc1EC.text : "",
                       ReciboFields.nomeFunc2: nomeFunc2EC.text != "" ? nomeFunc2EC.text : "",
                       ReciboFields.matrFunc2: nomeFunc2EC.text != "" ? matriculaFunc2EC.text : "",
-                      ReciboFields.ucFunc2: nomeFunc2EC.text != "" ? ucFunc2EC.text : "",
-                      ReciboFields.chefeFunc2: nomeFunc2EC.text != "" ? chefeFunc2EC.text : "",
                       ReciboFields.nomeFunc3: nomeFunc3EC.text != "" ? nomeFunc3EC.text : "",
                       ReciboFields.matrFunc3: nomeFunc3EC.text != "" ? matriculaFunc3EC.text : "",
-                      ReciboFields.ucFunc3: nomeFunc3EC.text != "" ? ucFunc3EC.text : "",
-                      ReciboFields.chefeFunc3: nomeFunc3EC.text != "" ? chefeFunc3EC.text : "",
                       ReciboFields.nomeFunc4: nomeFunc4EC.text != "" ? nomeFunc4EC.text : "",
                       ReciboFields.matrFunc4: nomeFunc4EC.text != "" ? matriculaFunc4EC.text : "",
-                      ReciboFields.ucFunc4: nomeFunc4EC.text != "" ? ucFunc4EC.text : "",
-                      ReciboFields.chefeFunc4: nomeFunc4EC.text != "" ? chefeFunc4EC.text : "",
-                      ReciboFields.matrMotorista: matriculaMotorista,
-                      ReciboFields.nomeMotorista: nomeMotorista,
+                      ReciboFields.matrMotorista: emailMotorista,
                       ReciboFields.kmInicio: kmInicialEC.text,
                       ReciboFields.kmFim: kmFinalEC.text,
                       ReciboFields.kmPercorrido: (controller.kmFinal.value - controller.kmInicio.value).toStringAsFixed(1),
@@ -623,6 +619,7 @@ class NewRegister extends GetView<NewRegisterController> {
                       ReciboFields.destino: destinoEC.text,
                       ReciboFields.passageiros: controller.passageiros.value.toString(),
                       ReciboFields.pedagio: pedagioEC.text.replaceAll(".", ","),
+                      ReciboFields.observacao: observacaoEC.text,
                       ReciboFields.arquivo: controller.urlImagem.value,
                     };
 
@@ -711,24 +708,16 @@ class NewRegister extends GetView<NewRegisterController> {
     required String texto,
     required TextEditingController nomeEC,
     required TextEditingController matriculaEC,
-    required TextEditingController ucEC,
-    required TextEditingController chefeEC,
   }) {
     if (texto.length >= 6) {
       int index = controller.matriculas.indexOf(texto);
       if (index >= 0) {
         nomeEC.text = controller.funcionarios[index]['nome'];
-        ucEC.text = controller.funcionarios[index]['uc'];
-        chefeEC.text = controller.funcionarios[index]['chefe'];
       } else {
         nomeEC.text = "";
-        ucEC.text = "";
-        chefeEC.text = "";
       }
     } else {
       nomeEC.text = "";
-      ucEC.text = "";
-      chefeEC.text = "";
     }
   }
 

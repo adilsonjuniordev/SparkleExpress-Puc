@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../ui/my_theme.dart';
 
 class MySnackbar {
@@ -127,13 +126,11 @@ class MySnackbar {
   }
 
   void loginSuccess() async {
-    final prefs = await SharedPreferences.getInstance();
-    var nome = prefs.getString('nome');
     Get.snackbar(
       "Sucesso",
-      "Seja bem-vindo, $nome!",
+      "Seja bem-vindo",
       titleText: const Text("Sucesso", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20)),
-      messageText: Text("Seja bem-vindo, $nome!", style: const TextStyle(color: Colors.white, fontSize: 16)),
+      messageText: const Text("Seja bem-vindo", style: TextStyle(color: Colors.white, fontSize: 16)),
       backgroundColor: Colors.green.withAlpha(200),
       snackPosition: SnackPosition.BOTTOM,
       barBlur: 1,
@@ -174,6 +171,40 @@ class MySnackbar {
       borderRadius: 8,
       duration: const Duration(seconds: 3),
       icon: const Icon(Icons.error, color: Colors.white, size: 40),
+      margin: const EdgeInsets.fromLTRB(10, 10, 10, 20),
+      padding: const EdgeInsets.fromLTRB(30, 20, 30, 20),
+    );
+  }
+
+  void failed(String message) {
+    Get.snackbar(
+      "Ops!",
+      message,
+      titleText: const Text("Ops!", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20)),
+      messageText: Text(message, style: const TextStyle(color: Colors.black, fontSize: 16)),
+      backgroundColor: MyTheme.error,
+      snackPosition: SnackPosition.BOTTOM,
+      barBlur: 1,
+      borderRadius: 8,
+      duration: const Duration(seconds: 3),
+      icon: const Icon(Icons.error, color: Colors.black, size: 40),
+      margin: const EdgeInsets.fromLTRB(10, 10, 10, 20),
+      padding: const EdgeInsets.fromLTRB(30, 20, 30, 20),
+    );
+  }
+
+  void success(String message) {
+    Get.snackbar(
+      "Sucesso!",
+      message,
+      titleText: const Text("Sucesso!", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20)),
+      messageText: Text(message, style: const TextStyle(color: Colors.white, fontSize: 16)),
+      backgroundColor: Colors.green,
+      snackPosition: SnackPosition.BOTTOM,
+      barBlur: 1,
+      borderRadius: 8,
+      duration: const Duration(seconds: 3),
+      icon: const Icon(Icons.error, color: Colors.black, size: 40),
       margin: const EdgeInsets.fromLTRB(10, 10, 10, 20),
       padding: const EdgeInsets.fromLTRB(30, 20, 30, 20),
     );

@@ -15,7 +15,7 @@ class MyTheme {
     ),
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
-        backgroundColor: const Color(0xffF5CF16),
+        foregroundColor: const Color(0xffF5CF16),
       ),
     ),
   );
