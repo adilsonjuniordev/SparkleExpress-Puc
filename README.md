@@ -26,7 +26,7 @@
 
 <img src="assets/images/diagrama_uml.png" href="#" alt="UML"/>
 
-## Testando o App (depuração pela IDE)
+# Testando o App (depuração pela IDE)
 
 Instale o SDK do [**Flutter**](https://docs.flutter.dev/get-started/install) na versão mais recente do canal **Stable**.
 Em seguida [**configure a IDE**](https://docs.flutter.dev/get-started/editor) de preferência.
@@ -46,7 +46,7 @@ Em seguida [**configure a IDE**](https://docs.flutter.dev/get-started/editor) de
 ```
 ___
 
-## Testando o App (Instalação APK)
+# Testando o App (Instalação APK)
 
 > Copie o arquivo **installer.apk** para o dispositivo Android e execute-o.
 > Ao concluir a instalação basta abri-lo
