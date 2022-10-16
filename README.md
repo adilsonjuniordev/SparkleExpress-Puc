@@ -2,12 +2,6 @@
 
 # Sparkle Express
 
-**Nomes:**
-
-- Adilson Antônio Pereira Junior
-- Pedro Augusto Costa Senciano
-- Raony Lino de Oliveira
-
 <br>
 
 **Descrição do Sistema**
