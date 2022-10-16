@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:sqflite/sqflite.dart';
+import '../../env/env.dart';
 import '../../repositories/database_connection.dart';
 
 class SplashController extends GetxController {
@@ -33,7 +34,7 @@ class SplashController extends GetxController {
     try {
       List listaEmpresas = [];
       var socket = GetConnect();
-      var response = await socket.get('https://opensheet.elk.sh/1wzDHMxHurEbELKRnn3Dv0uDDXj2MmQB4XlB_Y2wMIpI/empresas');
+      var response = await socket.get(Env.i['sheet_id_empresas']!);
       listaEmpresas = await (jsonDecode(response.bodyString.toString())).map((e) => {'empresa': e['empresas'], 'email': e['emails']}).toList();
 
       Database db = await DatabaseConnection().setDatabase();
@@ -60,7 +61,7 @@ class SplashController extends GetxController {
     try {
       List listaFuncionarios = [];
       var socket = GetConnect();
-      var response = await socket.get('https://opensheet.elk.sh/1kqoLNEA8FtOfuLM9yk3OHwDCI5DiSKKr-fAdZBIKVM8/funcionarios');
+      var response = await socket.get(Env.i["sheet_id_funcionarios"]!);
 
       listaFuncionarios = await (jsonDecode(response.bodyString.toString())).map((e) => {'matricula': e['matricula'], 'nome': e['nome']}).toList();
 

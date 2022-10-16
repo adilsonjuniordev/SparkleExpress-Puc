@@ -1,9 +1,11 @@
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../env/env.dart';
+
 class UserRepositoryLogin extends GetConnect {
   Future<dynamic> buscaDadosLogin() async {
-    var response = await get('https://opensheet.elk.sh/150wE8XP1Vz0u0DYsAumMymyE9XMnAf2_8JHI6fxmffQ/login');
+    var response = await get(Env.i['sheet_id_login']!);
     return response.body;
   }
 
