@@ -35,7 +35,6 @@
 
 # Web related
 lib/generated_plugin_registrant.dart
-lib/app/repositories/recibos_sheets_api.dart
 
 # Symbolication related
 app.*.symbols
